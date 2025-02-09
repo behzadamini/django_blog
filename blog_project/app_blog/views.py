@@ -15,7 +15,16 @@ def blog_detail(request, blog_id):
     if post:
         post.counted_views += 1
         post.save()
-        context = {'post': post}
+        
+        post_next = models.blog.objects.filter(published_date__gt=post.published_date).order_by('published_date').first()
+        post_prev = models.blog.objects.filter(published_date__lt=post.published_date).order_by('-published_date').first()
+
+        context = {
+            'post': post,
+            'post_next': post_next,
+            'post_prev': post_prev,
+            }
+
         return render(request, 'app_blog/blog-single.html', context)
     else:
         context = {'post': None}
