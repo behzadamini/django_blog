@@ -6,18 +6,18 @@ def home(request):
     return render(request, 'app_blog/index.html')
 
 def blog_home(request):
-    posts = models.blog.objects.filter(status=True, published_date__lte = timezone.now())
+    posts = models.blog.objects.filter(status=True, published_date__lte = timezone.now()).order_by('-pk')
     context = {'posts': posts}
     return render(request, 'app_blog/blog-home.html', context)
 
 def blog_detail(request, blog_id):
-    post = get_object_or_404(models.blog, pk=blog_id)
+    post = get_object_or_404(models.blog, pk=blog_id, status=True, published_date__lte = timezone.now())
     if post:
         post.counted_views += 1
         post.save()
         
-        post_next = models.blog.objects.filter(published_date__gt=post.published_date).order_by('published_date').first()
-        post_prev = models.blog.objects.filter(published_date__lt=post.published_date).order_by('-published_date').first()
+        post_next = models.blog.objects.filter(status=True,pk__gt=post.pk, published_date__lte = timezone.now()).order_by('pk').first()
+        post_prev = models.blog.objects.filter(status=True,pk__lt=post.pk, published_date__lte = timezone.now()).order_by('-pk').first()
 
         context = {
             'post': post,
