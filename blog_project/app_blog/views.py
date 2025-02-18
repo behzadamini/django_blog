@@ -1,12 +1,20 @@
 from django.shortcuts import render, get_object_or_404,HttpResponse
 from django.utils import timezone
 from . import models
+from django.db.models import Q
+
 
 def home(request):
     return render(request, 'app_blog/index.html')
 
-def blog_home(request):
-    posts = models.blog.objects.filter(status=True, published_date__lte = timezone.now()).order_by('-pk')
+def blog_home(request, cat=''):
+
+    filters = Q(status=True, published_date__lte = timezone.now())
+
+    if cat != '':
+        filters &= Q(category__name=cat)
+    
+    posts = models.blog.objects.filter(filters).order_by('-pk')
     context = {'posts': posts}
     return render(request, 'app_blog/blog-home.html', context)
 

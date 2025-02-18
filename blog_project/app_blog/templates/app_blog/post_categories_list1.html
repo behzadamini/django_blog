@@ -1,0 +1,8 @@
+<div class="single-sidebar-widget tag-cloud-widget">
+    <h4 class="tagcloud-title">Tag Clouds</h4>
+    <ul>
+        {% for cat in cats %}
+            <li><a href="{% url 'app_blog:blog_home' cat=cat.category__name %}">    {{cat.category__name}}</a></li>
+        {% endfor %}
+    </ul>
+</div>								
