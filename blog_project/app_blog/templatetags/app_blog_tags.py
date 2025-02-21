@@ -16,7 +16,7 @@ def custom_filter(value):
 
 @register.inclusion_tag('app_blog/latest_post.html')
 def latestpost():
-    posts = blog.objects.filter(status=True, published_date__lte=timezone.now()).order_by('-pk')
+    posts = blog.objects.filter(status=True, published_date__lte=timezone.now()).order_by('-pk')[:3]
     return {'posts': posts}
 
 @register.inclusion_tag('app_blog/post_categories.html')
