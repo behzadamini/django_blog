@@ -30,3 +30,10 @@ def post_categories_list():
     filters = Q(status=True, published_date__lte = timezone.now())
     categorise = blog.objects.values('category__name').filter(filters).distinct()
     return {'cats': categorise}
+
+
+@register.inclusion_tag('app_blog/latestpost_num.html')
+def latestpost_num(post_count):
+    filters = Q(status=True, published_date__lte = timezone.now())
+    posts = blog.objects.filter(filters).order_by('-pk')[:post_count]
+    return {'posts':posts}
