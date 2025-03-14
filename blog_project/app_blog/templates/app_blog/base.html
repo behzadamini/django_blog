@@ -76,7 +76,7 @@
 						          </li>					                		
 				            </ul>
 				          </li>					          					          		          
-				          <li><a href="contact">Contact</a></li>
+				          <li><a href="{% url 'app_blog:contact' %}">Contact</a></li>
 				        </ul>
 				      </nav><!-- #nav-menu-container -->					      		  
 					</div>
@@ -170,6 +170,36 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			</footer>
 			<!-- End footer Area -->	
 
+
+			<!-- Modal -->
+			<div class="modal fade" id="messageModal" role="dialog">
+				<div class="modal-dialog">
+				
+				<!-- Modal content-->
+				<div class="modal-content">
+
+				{% if messages %}
+					{% for message in messages %}
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title"></h4>
+						</div>
+						<div class="modal-body">
+							<div class="alert alert-{{ message.tags }}">
+								{{ message }}
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">بستن</button>
+						</div>
+					{% endfor %}		
+				{% endif %}
+
+				</div>
+				
+				</div>
+			</div>
+
 			<script src="{% static 'app_blog/js/vendor/jquery-2.2.4.min.js' %}"></script>
 			<script src="{% static 'app_blog/js/popper.min.js' %}"></script>
 			<script src="{% static 'app_blog/js/vendor/bootstrap.min.js' %}"></script>			
@@ -184,5 +214,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			<script src="{% static 'app_blog/js/owl.carousel.min.js' %}"></script>							
 			<script src="{% static 'app_blog/js/mail-script.js' %}"></script>	
 			<script src="{% static 'app_blog/js/main.js' %}"></script>	
+
+			<script>
+				$(document).ready(function() {
+				  {% if messages %}
+					$('#messageModal').modal('show');
+				  {% endif %}
+				});
+			</script>
 		</body>
+
+
+
 	</html>

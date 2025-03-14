@@ -28,4 +28,13 @@ class blog(models.Model):
     def excert(self):
         return Truncator(self.content).words(50)
 
-    
+class contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=100, null=False, blank=True)
+    message = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name + " " + self.subject

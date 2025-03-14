@@ -1,9 +1,11 @@
-from django.shortcuts import render, get_object_or_404,HttpResponse
+from django.shortcuts import render, get_object_or_404,HttpResponse, redirect
 from django.utils import timezone
-from . import models
 from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib import messages
 
+from . import forms
+from . import models
 
 def home(request):
     return render(request, 'app_blog/index.html')
@@ -51,8 +53,7 @@ def blog_detail(request, blog_id):
     else:
         context = {'post': None}
         return HttpResponse('Blog not found', status=404, content=context)
-    
-    
+       
 def blog_search(request):
     filters = Q(status=True, published_date__lte = timezone.now())
     
@@ -63,4 +64,18 @@ def blog_search(request):
     context = {'posts': posts}
     return render(request, 'app_blog/blog-home.html', context)
     
+
+def contact(request):
+    form = forms.ContactForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            contact = form.save(commit=False)
+            contact.name = "ناشناس"
+            contact.save()
+            messages.add_message(request, messages.SUCCESS, 'فرم با موفقیت ارسال شد.')
+            form = forms.ContactForm()
+        else:
+            messages.error(request, 'ارسال فرم با خطا مواجه شد.')
+
+    return render(request, 'app_blog/contact.html', {'form':form})
     
