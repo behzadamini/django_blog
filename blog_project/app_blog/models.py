@@ -31,7 +31,7 @@ class blog(models.Model):
 class contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    subject = models.CharField(max_length=100, null=False, blank=True)
+    subject = models.CharField(max_length=100, null=True, blank=True)
     message = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
