@@ -29,4 +29,7 @@ def signup_view(request):
     return render(request, 'accounts/signin.html')
 
 def forgot_view(request):
+    if request.user.is_authenticated:
+        return redirect("/")
+    
     return render(request, "accounts/forgot.html")
