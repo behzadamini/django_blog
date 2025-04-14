@@ -23,7 +23,7 @@
   <body class="text-center">
 
 
-    <form class="form-signin" method="post" action="{% url 'accounts:forgot' %}">
+    <form class="form-signin" method="post" action="{% url 'accounts:reset_password' %}">
     
     {%  csrf_token %}
 
@@ -31,11 +31,11 @@
       <h1 class="h3 mb-3 font-weight-normal">Forgot Password</h1>
 
       <input id="inp_email" type="Email" name="email" class="form-control" placeholder="Email" required autofocus>
-      <input type="password" name="password" class="form-control" placeholder="Password" required>
+      
       <button class="btn btn-lg btn-primary btn-block" type="submit">Send Code</button>
 
     </form>
-
+    <input type="password" name="password" class="form-control" placeholder="Password" required>
     <script src="{% static 'app_blog/js/vendor/jquery-2.2.4.min.js' %}"></script>
     <script>
       $(document).ready(function(){
