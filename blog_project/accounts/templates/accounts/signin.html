@@ -4,6 +4,8 @@
 
 {% block content %}
 
+{% block title %}Signin{% endblock %}
+
     {% if not request.user.is_authenticated %}
 
     <form class="form-signin" method="post" action="{% url 'accounts:login' %}">
