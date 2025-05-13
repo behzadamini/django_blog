@@ -13,7 +13,8 @@ def login_view(request):
             login(request, user=user)
             return redirect("/blog")
         else:
-            return redirect("/accounts/login")
+            messages.error(request, f"نام کاربری یا رمز عبور اشتباه است.")
+            #return redirect("/accounts/login")
 
     return render(request, 'accounts/signin.html')
 
