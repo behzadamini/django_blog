@@ -29,16 +29,27 @@ def logout_view(request):
 def signup_view(request):
     try:
         if request.method == "POST":
-            user = models.User.objects.create_user(
-                username=request.POST["email"],
-                password=request.POST["password"],
-                email=request.POST["email"],
-                first_name=request.POST["first_name"],
-                last_name=request.POST["last_name"],
-            )
-            user.save()
+            if  request.POST["email"] == "" or \
+                request.POST["password"] == "" or \
+                request.POST["first_name"] == "" or \
+                request.POST["last_name"] == "":
+                messages.error(request, f"لطفاً همه فیلدها را پر کنید.")
+            else:
+                user = models.User.objects.create_user(
+                    username=request.POST["email"],
+                    password=request.POST["password"],
+                    email=request.POST["email"],
+                    first_name=request.POST["first_name"],
+                    last_name=request.POST["last_name"],
+                )
+                user.save()
+                
     except Exception as e:
-        messages.error(request, f"خطا در ثبت نام: {str(e)}")
+        if str(e) == "UNIQUE constraint failed: auth_user.username":
+            messages.error(request, f"نام کاربری وارد شده وجود دارد. لطفاً یک نام کاربری دیگر وارد کنید.")
+        else:
+            messages.error(request, f"خطا در ثبت نام: {str(e)}")
+            
     return render(request, 'accounts/signup.html')
 
 def forgot_view(request):
