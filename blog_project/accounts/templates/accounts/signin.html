@@ -50,11 +50,13 @@
           $("#inp_username").attr('required', 'required');
 
           $("#inp_email").removeAttr('required');
+          $("#inp_email").val("");
           $("#inp_email").hide();
         });
 
         $("#btn_email").click(function(){
           $("#inp_username").hide();
+          $("#inp_username").val("");
           $("#inp_username").removeAttr('required');
 
           $("#inp_email").attr('required', 'required');  

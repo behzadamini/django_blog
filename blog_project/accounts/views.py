@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, models
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 def login_view(request):
-
-    if request.method == "POST":
-        username = request.POST["username"]
+    username = ""
+    if request.method == "POST":        
+        if request.POST["username"] == "" or request.POST["username"] == None:
+            username = User.objects.get(email=request.POST["email"]).username
+        else:   
+            username = request.POST["username"]
+        
         password = request.POST["password"]
         user = authenticate(request, username= username, password=password)
         
