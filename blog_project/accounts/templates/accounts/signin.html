@@ -15,14 +15,7 @@
       <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Please login</h1>
 
-
-      <div class="btn-group">
-        <button id="btn_username" type="button" class="btn btn-primary">via Username</button>
-        <button id="btn_email" type="button" class="btn btn-secondary">via Email</button>
-      </div>  
-
-      <input id="inp_email" type="Email" name="email" class="form-control" placeholder="Email" required autofocus>
-      <input id="inp_username" type="text" name="username" class="form-control" placeholder="User name" required autofocus>
+      <input type="text" name="username_email" class="form-control" placeholder="Email or User name" required autofocus>
       <input type="password" name="password" class="form-control" placeholder="Password" required>
       <div class="checkbox mb-3">
 
@@ -42,30 +35,7 @@
 
     {% endif %}
 
-    <script src="{% static 'app_blog/js/vendor/jquery-2.2.4.min.js' %}"></script>
-    <script>
-      $(document).ready(function(){
-        $("#btn_username").click(function(){
-          $("#inp_username").show();
-          $("#inp_username").attr('required', 'required');
-
-          $("#inp_email").removeAttr('required');
-          $("#inp_email").val("");
-          $("#inp_email").hide();
-        });
-
-        $("#btn_email").click(function(){
-          $("#inp_username").hide();
-          $("#inp_username").val("");
-          $("#inp_username").removeAttr('required');
-
-          $("#inp_email").attr('required', 'required');  
-          $("#inp_email").show();
-        });
-
-        $("#btn_username").click();
-      });
-    </script>
+    
 
 {% endblock %}
 

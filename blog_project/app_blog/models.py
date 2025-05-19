@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils.text import Truncator
 from django.db import models
 
@@ -10,7 +11,7 @@ class category(models.Model):
 
 class blog(models.Model):
     image = models.ImageField(upload_to='blog', default='blog/blog_default.jpg')
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=255)
     content = models.TextField()
     # tags
