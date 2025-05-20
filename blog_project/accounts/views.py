@@ -4,6 +4,36 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.http import HttpResponse
+
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.urls import reverse_lazy
+from django.utils.http import urlsafe_base64_decode
+from .models import PasswordResetTracker
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    success_url = reverse_lazy('login')  # یا هر صفحه دلخواه بعد از موفقیت
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user = self.get_user(kwargs['uidb64'])
+        if self.user is None or not self.token_is_valid(self.user, kwargs['token']):
+            return self.invalid_link_response()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_user(self, uidb64):
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            return User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            return None
+
+    def token_is_valid(self, user, token):
+        return default_token_generator.check_token(user, token)
+
+    def invalid_link_response(self):
+        return HttpResponse("این لینک دیگر معتبر نیست یا قبلاً استفاده شده است.", status=400)
+
 
 def is_email(value):
     try:
