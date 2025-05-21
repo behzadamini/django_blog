@@ -13,13 +13,22 @@ from django.utils.http import urlsafe_base64_decode
 from .models import PasswordResetTracker
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-    success_url = reverse_lazy('login')  # یا هر صفحه دلخواه بعد از موفقیت
+    #success_url = reverse_lazy('login')  # یا هر صفحه دلخواه بعد از موفقیت
 
     def dispatch(self, request, *args, **kwargs):
-        self.user = self.get_user(kwargs['uidb64'])
-        if self.user is None or not self.token_is_valid(self.user, kwargs['token']):
-            return self.invalid_link_response()
+        self.user = self.get_user(kwargs.get('uidb64'))
+        token = kwargs.get('token')
+
+        if token and token != 'set-password':
+            print("**************************")
+            print(self.user)
+            print("Token is valid:", self.token_is_valid(self.user, token))
+            print("**************************")
+            if self.user is None or not self.token_is_valid(self.user, token):
+                return self.invalid_link_response()
+
         return super().dispatch(request, *args, **kwargs)
+
 
     def get_user(self, uidb64):
         try:
@@ -32,7 +41,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
         return default_token_generator.check_token(user, token)
 
     def invalid_link_response(self):
-        return HttpResponse("این لینک دیگر معتبر نیست یا قبلاً استفاده شده است.", status=400)
+        return HttpResponse("Invalid link or used", status=400)
 
 
 def is_email(value):
@@ -85,22 +94,31 @@ def signup_view(request):
                 request.POST["first_name"] == "" or \
                 request.POST["last_name"] == "":
                 messages.error(request, f"لطفاً همه فیلدها را پر کنید.")
-                
-            elif not User.objects.filter(email=request.POST["email"]).exists():
-                user = models.User.objects.create_user(
-                    username=request.POST["username"],
-                    password=request.POST["password"],
-                    email=request.POST["email"],
-                    first_name=request.POST["first_name"],
-                    last_name=request.POST["last_name"],
-                )
-                user.save()
-                messages.add_message(request, messages.SUCCESS, f'ثبت نام شما با موفقیت انجام شد لطفاً از طریق فرم زیر وارد شوید.')
-                return render(request, 'accounts/signin.html')
+                return render(request, 'accounts/signup.html')
             
-            else:
-                messages.error(request, f"ایمیل وارد شده از قبل وجود دارد لطفاً یک آدرس ایمیل دیگر وارد کنید.")
+            if User.objects.filter(username=request.POST["username"]).exists():
+                messages.error(request, f"نام کاربری وارد شده از قبل وجود دارد لطفاً یک نام کاربری دیگر وارد کنید.")
+                return render(request, 'accounts/signup.html')  
                 
+            if User.objects.filter(email=request.POST["email"]).exists():
+                messages.error(request, f"ایمیل وارد شده از قبل وجود دارد لطفاً یک آدرس ایمیل دیگر وارد کنید.")
+                return render(request, 'accounts/signup.html')
+            
+            if request.POST["password"] != request.POST["password2"]:
+                messages.error(request, f"کلمه عبور و تکرار آن یکسان نیستند.")
+                return render(request, 'accounts/signup.html')
+            
+            user = models.User.objects.create_user(
+                username=request.POST["username"],
+                password=request.POST["password"],
+                email=request.POST["email"],
+                first_name=request.POST["first_name"],
+                last_name=request.POST["last_name"],
+            )
+            user.save()
+            messages.add_message(request, messages.SUCCESS, f'ثبت نام شما با موفقیت انجام شد لطفاً از طریق فرم زیر وارد شوید.')
+            return render(request, 'accounts/signin.html')
+
     except Exception as e:
         if str(e) == "UNIQUE constraint failed: auth_user.username":
             messages.error(request, f"نام کاربری وارد شده وجود دارد. لطفاً یک نام کاربری دیگر وارد کنید.")
