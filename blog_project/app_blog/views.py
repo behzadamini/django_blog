@@ -64,7 +64,6 @@ def blog_search(request):
     context = {'posts': posts}
     return render(request, 'app_blog/blog-home.html', context)
     
-
 def contact(request):
     form = forms.ContactForm(request.POST)
     if request.method == 'POST':
@@ -79,3 +78,5 @@ def contact(request):
 
     return render(request, 'app_blog/contact.html', {'form':form})
     
+def coming_soon(request):
+    return render(request, 'app_blog/comming_soon.html')

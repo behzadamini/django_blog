@@ -18,11 +18,21 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from .setting.dev import *
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('app_blog.urls')),
-    path('accounts/', include('accounts.urls'))
-]
+urlpatterns = []
+
+if coming_soon_active:
+    urlpatterns = [
+        path('admin/', admin.site.urls),         
+        path('', include('app_blog.urls')),
+        path('<path:anything>/', include('app_blog.urls')),
+    ]
+else:
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('app_blog.urls')),
+        path('accounts/', include('accounts.urls')),
+    ]
+
 
 urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
