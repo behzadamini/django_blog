@@ -18,20 +18,20 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from .setting.dev import *
 from django.urls import re_path
+from app_blog.views import coming_soon
 
 urlpatterns = []
 
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('app_blog.urls')),
+    path('accounts/', include('accounts.urls')),
+]
+
 if coming_soon_active:
-    urlpatterns = [
-        path('admin/', admin.site.urls),    
-        re_path(r'^.*$', include('app_blog.urls'))
-    ]
-else:
-    urlpatterns = [
-        path('admin/', admin.site.urls),
-        path('', include('app_blog.urls')),
-        path('accounts/', include('accounts.urls')),
-    ]
+    urlpatterns.insert(0, re_path(r'^.*$', coming_soon, name='coming_soon'))
 
 
 urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)
