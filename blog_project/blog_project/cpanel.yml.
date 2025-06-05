@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - source /home/xzqtpmav/virtualenv/test2/3.9/bin/activate
+    - cd /home/xzqtpmav/test2
+    - export DJANGO_SETTINGS_MODULE=django_blog.setting.prod
+    - python manage.py migrate --noinput
+    - python manage.py collectstatic --noinput
+    - touch tmp/restart.txt
