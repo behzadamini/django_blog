@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 
-coming_soon_active = True
+coming_soon_active = False
 
 
 
