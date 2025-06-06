@@ -6,4 +6,4 @@ deployment:
     - export DJANGO_SETTINGS_MODULE=django_blog.setting.prod
     - python manage.py migrate --noinput
     - python manage.py collectstatic --noinput
-    - touch tmp/restart.txt
+    - touch tmp/restart.txt 4
