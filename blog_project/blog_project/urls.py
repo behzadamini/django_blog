@@ -31,7 +31,7 @@ urlpatterns = [
 ]
 
 if coming_soon_active:
-    urlpatterns.insert(0, re_path(r'^.*$', coming_soon, name='coming_soon'))
+    urlpatterns.insert(1, re_path(r'^.*$', coming_soon, name='coming_soon'))
 
 
 urlpatterns += static(STATIC_URL, document_root=STATIC_ROOT)
