@@ -11,8 +11,7 @@ SECRET_KEY = 'django-insecure-w+p*dl4nt9i=vi#$0n+m8&x7gm!4cb9c#y@3^-^7s=(-)0k!t(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 DATABASES = {
     'default': {
@@ -26,8 +25,3 @@ MEDIA_ROOT = BASE_DIR /'media'
 
 STATICFILES_DIR = [BASE_DIR / 'statics']
 
-
-STATIC_ROOT = BASE_DIR / 'static'
-MEDIA_ROOT = BASE_DIR /'media'
-
-STATICFILES_DIR = [BASE_DIR / 'statics']

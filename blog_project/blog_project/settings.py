@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 
-coming_soon_active = True  # Set to False to disable the coming soon page
+coming_soon_active = False  # Set to False to disable the coming soon page
 
 
 
