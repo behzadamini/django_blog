@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app_blog',
-    'accounts'
+    'accounts',
+    'compressor'
 ]
 
 MIDDLEWARE = [
@@ -103,6 +104,22 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+
+
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "compressor.finders.CompressorFinder",
+]
+
+# اختیاری: مشخص کردن مسیر فایل‌های خروجی فشرده‌شده
+#COMPRESS_ROOT = STATIC_ROOT
+#COMPRESS_URL = STATIC_URL
+
+# Test in Debug mode
+COMPRESS_ENABLED = True
+COMPRESS_OFFLINE = True
 
 
 

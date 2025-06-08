@@ -1,5 +1,7 @@
 {% load static %}	
-	
+{% load compress %}
+
+
 	<!DOCTYPE html>
 	<html lang="zxx" class="no-js">
 	<head>
@@ -17,8 +19,10 @@
 		<meta charset="UTF-8">
 		<!-- Site Title -->
 		<title>Travel</title>
-
 		<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet"> 
+
+		{% compress css %}
+
 			<!--
 			CSS
 			============================================= -->
@@ -31,6 +35,9 @@
 			<link rel="stylesheet" href="{% static 'app_blog/css/animate.min.css' %}">
 			<link rel="stylesheet" href="{% static 'app_blog/css/owl.carousel.css' %}">				
 			<link rel="stylesheet" href="{% static 'app_blog/css/main.css' %}">
+
+		{% endcompress %}
+		
 		</head>
 		<body>	
 			<header id="header">
@@ -207,10 +214,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				</div>
 			</div>
 
+			{% compress js %}
+
 			<script src="{% static 'app_blog/js/vendor/jquery-2.2.4.min.js' %}"></script>
 			<script src="{% static 'app_blog/js/popper.min.js' %}"></script>
 			<script src="{% static 'app_blog/js/vendor/bootstrap.min.js' %}"></script>			
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>		
  			<script src="{% static 'app_blog/js/jquery-ui.js' %}"></script>					
   			<script src="{% static 'app_blog/js/easing.min.js' %}"></script>			
 			<script src="{% static 'app_blog/js/hoverIntent.js' %}"></script>
@@ -222,6 +230,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			<script src="{% static 'app_blog/js/mail-script.js' %}"></script>	
 			<script src="{% static 'app_blog/js/main.js' %}"></script>	
 
+			{% endcompress %}
+			
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>		
 			<script>
 				$(document).ready(function() {
 				  {% if messages %}
