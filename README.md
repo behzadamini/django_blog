@@ -1,3 +1,3 @@
 # django_blog
 
-Read me2
+Read me
